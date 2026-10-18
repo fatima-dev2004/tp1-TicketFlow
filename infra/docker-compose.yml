@@ -6,3 +6,15 @@ services:
     container_name: customer-service
     ports:
       - "8081:8081"
+
+  api-gateway:
+    build:
+      context: ..
+      dockerfile: services/api-gateway/Dockerfile
+    container_name: api-gateway
+    depends_on:
+      - customer-service
+    environment:
+      CUSTOMER_SERVICE_URL: http://customer-service:8081
+    ports:
+      - "8080:8080"
